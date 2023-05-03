@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 16 Paź 2022, 19:26
--- Wersja serwera: 10.4.24-MariaDB
--- Wersja PHP: 8.0.19
+-- Czas generowania: 03 Maj 2023, 18:04
+-- Wersja serwera: 10.4.27-MariaDB
+-- Wersja PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,7 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `kino`
 --
-CREATE DATABASE IF NOT EXISTS `kino` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+DROP DATABASE IF  EXISTS `kino`;
+CREATE DATABASE `kino` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `kino`;
 
 -- --------------------------------------------------------
@@ -31,11 +33,11 @@ USE `kino`;
 
 CREATE TABLE `aktorzy` (
   `id_aktora` int(11) NOT NULL,
-  `aktor` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
+  `aktor` varchar(50) NOT NULL,
   `kobieta` tinyint(1) NOT NULL DEFAULT 0,
   `data_urodzenia` date NOT NULL,
   `wzrost` int(11) NOT NULL,
-  `kraj` varchar(30) COLLATE utf8mb4_polish_ci DEFAULT NULL
+  `kraj` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -85,8 +87,19 @@ INSERT INTO `aktorzy` (`id_aktora`, `aktor`, `kobieta`, `data_urodzenia`, `wzros
 (40, 'Arnold Schwarzenegger', 0, '1947-07-30', 188, 'Austria'),
 (41, 'Connie Nielsen', 1, '1965-07-03', 179, 'Dania'),
 (42, 'Joaquin Phoenix', 0, '1974-10-28', 173, 'Portoryko'),
-(43, 'Shia LaBeouf', 0, '1986-06-11', 176, 'USA'),
-(44, 'Michael Peña', 0, '1976-01-13', 170, 'USA');
+(43, 'Kate Beckinsale', 1, '1973-07-26', 170, 'Wielka Brytania'),
+(44, 'Josh Hartnett', 0, '1978-07-21', 190, 'USA'),
+(45, 'Cuba Gooding Jr', 0, '1968-01-02', 178, 'USA'),
+(46, 'Alec Baldwin', 0, '1958-04-03', 183, 'USA'),
+(47, 'Dan Aykroyd', 0, '1952-07-01', 185, 'USA'),
+(48, 'Jon Voight', 0, '1938-12-29', 187, 'USA'),
+(49, 'Tom Sizemore', 0, '1961-11-29', 183, 'USA'),
+(50, 'Gene Hackman', 0, '1930-01-30', 187, 'USA'),
+(51, 'Clint Eastwood', 0, '1930-05-31', 193, 'USA'),
+(52, 'Viggo Mortensen', 0, '1958-10-20', 180, 'USA'),
+(53, 'Gary Oldman', 0, '1958-03-21', 174, 'Wielka Brytania'),
+(54, 'Harrison Ford', 0, '1942-07-13', 185, 'USA'),
+(55, 'Gleen Close', 1, '1947-03-19', 165, 'USA');
 
 -- --------------------------------------------------------
 
@@ -96,9 +109,9 @@ INSERT INTO `aktorzy` (`id_aktora`, `aktor`, `kobieta`, `data_urodzenia`, `wzros
 
 CREATE TABLE `filmy` (
   `id_filmu` int(11) NOT NULL,
-  `tytul` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
-  `oryginalny_tytul` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL,
-  `opis` text COLLATE utf8mb4_polish_ci DEFAULT NULL,
+  `tytul` varchar(50) NOT NULL,
+  `oryginalny_tytul` varchar(50) NOT NULL,
+  `opis` text DEFAULT NULL,
   `data_premiery` date DEFAULT NULL,
   `czas_trwania` int(11) NOT NULL,
   `id_gatunku` int(11) DEFAULT NULL,
@@ -120,7 +133,7 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 (8, 'Obcy - 8 pasażer Nostromo', 'Alien', 'Załoga statku kosmicznego Nostromo odbiera tajemniczy sygnał i ląduje na niewielkiej planetoidzie, gdzie jeden z jej członków zostaje zaatakowany przez obcą formę życia.', '2021-05-25', 127, 2, 8),
 (9, 'Armageddon', 'Armageddon', 'Po odkryciu asteroidy wielkości Teksasu, która zmierza w kierunku Ziemi, NASA rekrutuje grupę wiertniczych i wysyła na misję ratowania planety.', '1998-06-30', 137, 2, 9),
 (10, 'Buntownik z wyboru', 'Good Will Hunting', 'Will, matematyczny geniusz gardzący formalnym wykształceniem, zostaje oskarżony o pobicie policjanta. Profesor MIT, świadomy talentu chłopaka, proponuje mu, aby w zamian za zwolnienie z aresztu podjął naukę i terapię psychologiczną.', '1997-12-02', 121, 4, 10),
-(11, 'Good morning, Vietnam', 'Good morning, Vietnam', 'Po przyjeździe do Wietnamu Adrian Cronauer prowadzi program w wojskowej rozgłośni radiowej. Jego niekonwencjonalne metody pracy i oryginalny sposób bycia szybko budzą niechęć przełożonych.', '0000-00-00', 132, 5, 11),
+(11, 'Good morning, Vietnam', 'Good morning, Vietnam', 'Po przyjeździe do Wietnamu Adrian Cronauer prowadzi program w wojskowej rozgłośni radiowej. Jego niekonwencjonalne metody pracy i oryginalny sposób bycia szybko budzą niechęć przełożonych.', '1987-12-23', 132, 5, 11),
 (12, 'Siedem', 'Seven', 'Dwóch policjantów stara się złapać seryjnego mordercę wybierającego swoje ofiary według specjalnego klucza - siedmiu grzechów głównych.', '1995-09-15', 127, 6, 12),
 (13, 'Troja', 'Troy', 'Ekranizacja epopei Homera opowiadająca o walce Greków pod murami Troi, aby odbić porwaną królową Sparty.', '2004-05-09', 183, 7, 13),
 (14, 'Infiltracja', 'The Departed', 'Tajny policjant w szeregach grupy przestępczej i informator mafii w bostońskiej jednostce dochodzeniowej toczą ze sobą śmiertelną rozgrywkę.', '2006-09-26', 152, 1, 6),
@@ -130,7 +143,7 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 (18, 'Kontakt', 'Contact', 'Ellie od lat prowadzi nasłuch kosmosu. W końcu odbiera sygnał nadany przez obcą cywilizację.', '1997-07-11', 153, 2, 15),
 (19, 'Lot', 'Flight', 'Pilot William \"Whip\" Whitaker szczęśliwie ląduje zepsutym samolotem. W sprawie wypadku toczy się śledztwo.', '2012-10-14', 138, 9, 15),
 (20, 'Mad Max: Na drodze gniewu', 'Mad Max: Fury Road', 'Prześladowany przez demony przeszłości Mad Max uważa, że najlepszym sposobem na przeżycie jest samotna wędrówka po świecie. Zostaje jednak wciągnięty do grupy uciekinierów przemierzających tereny spustoszone przez wojnę nuklearną (Wasteland) w pojeździe zwanym War Rig, prowadzonym przez Imperatorkę Furiosę. Uciekają z Cytadeli sterroryzowanej przez Immortana Joe’ego, któremu odebrano coś wyjątkowego. Rozwścieczony watażka zwołuje wszystkie swoje bandy i wytrwale ściga buntowników, podczas gdy na drogach toczy się wysokooktanowa wojna.', '2015-05-07', 120, 2, 16),
-(21, 'Atomic Blonde', 'Atomic Blonde', 'W scenie kiedy Lorraine Broughton jest odebrana przez agentów z lotniska w Berlinie Zachodnim, podczas jazdy ulicami stolicy Niemiec, za autem którym jedzie pojawia się Porsche. Podczas tego ujęcia można zauważyć, że pozostałe samochody, które stoją na ulicy nie były produkowane w 1989 roku.', '2017-03-12', 115, 1, 1),
+(21, ' Atomic Blonde', ' Atomic Blonde', 'W scenie kiedy Lorraine Broughton jest odebrana przez agentów z lotniska w Berlinie Zachodnim, podczas jazdy ulicami stolicy Niemiec, za autem którym jedzie pojawia się Porsche. Podczas tego ujęcia można zauważyć, że pozostałe samochody, które stoją na ulicy nie były produkowane w 1989 roku.', '2017-03-12', 115, 1, 1),
 (22, 'The Old Guard', 'The Old Guard', 'Pod dowództwem wojowniczki imieniem Andy (Charlize Theron), sekretna grupa najemników, których nic nie jest w stanie zabić, od stuleci chroni świat śmiertelników. Kiedy zespół podejmuje się nowej misji ratunkowej i ich nadzwyczajne zdolności zostają nagle ujawnione, Andy i Nile (Kiki Layne), świeżo upieczony żołnierz w szeregach grupy, muszą wyeliminować zagrożenie ze strony ludzi, którzy za wszelką cenę chcą zawładnąć ich mocą i zarobić na tym fortunę.', '2020-07-10', 125, 1, 17),
 (23, 'Shrek', 'Shrek', 'Ogr o imieniu Shrek chce za wszelką cenę odzyskać spokój na terenie swojej posiadłości na bagnach, gdzie w wyniku represji okrutnego Lorda Farquaada zesłane zostały różne bajkowe postacie, w tym Pinokio, Wilk czy siedmiu krasnoludków. Shrek decyduje się na wyprawę do siedziby Farquaada, miasta Duloc, by odebrać prawa do swoich ziem, a w konsekwencji odzyskać utracony spokój. W wyprawie towarzyszy mu niezdarny Osioł. W wyniku negocjacji zawarty zostaje układ: w zamian za otrzymanie dokumentu ogr zobowiązuje się uwolnić ze smoczej wieży piękną królewnę Fionę, którą Lord wybrał na swoją przyszłą małżonkę.', '1990-10-17', 95, 10, 18),
 (24, 'Skazani na Shawshank', 'The Shawshank Redemption', 'Andy Dufresne (Tim Robbins), dobrze zarabiający bankier z Nowej Anglii, zostaje oskarżony o podwójne zabójstwo - swojej żony i jej kochanka. Uparcie twierdzi, że jest niewinny, ale dzięki niezbitym dowodom zostaje skazany na podwójne dożywocie w więzieniu Shawshank. Shawshank rządzi hipokryta i fanatyk biblijny, naczelnik Norton (Bob Gunton), a wraz z nim sadystyczni strażnicy. Andy już po kilku dniach poznaje brutalną, więzienną rzeczywistość, ale dzięki wrodzonej inteligencji, sprytowi oraz pomocy przyjaciela Ellisa Boyda \"Reda\" Reddinga (Morgan Freeman) udaje mu się zachować nadzieję, która pozwoli dokonać zemsty.', '2021-09-10', 142, 9, 19),
@@ -139,7 +152,7 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 (27, 'Interstellar', 'Interstellar', 'Historia grupy badaczy, którzy dzięki nowo odkrytemu tunelowi czasoprzestrzennemu pokonują granice do tej pory przekraczające ludzkie możliwości podróżowania w innym wymiarze. Film oparty jest na teorii naukowej opracowanej przez fizyka z Caltech Kipa Thorne\'a.', '2014-10-26', 169, 2, 7),
 (28, 'Szeregowiec Ryan', 'Saving Private Ryan', 'II wojna światowa była przełomowym wydarzeniem XX wieku i decydującym momentem dla Ameryki i świata. Przesunęła granice państw. Na zawsze zmieniła tych, którzy ją przeżyli i ukształtowała pokolenia, które po niej nadeszły. Nazwana została \"ostatnią wielką wojną\". Nic nie mogło przygotować żołnierzy na plaży Omaha do bitwy, którą właśnie mieli stoczyć. Przepełnieni nadzieją i determinacją, żaden z nich nie wiedział, czy uda mu się przeżyć. Patrząc na wybrzeże Normandii kapitan John Miller (Tom Hanks) wierzył, że walka, która ich czeka, jest największym wyzwaniem tej wojny. Nie wiedział, że to co najtrudniejsze, jest jeszcze przed nimi. Gdy sprzymierzone wojska opanowały plażę Omaha, Miller otrzymał rozkaz poprowadzenia swojego oddziału za linię wroga w niebezpiecznej misji znalezienia i ocalenia jednego człowieka - szeregowca Jamesa Ryana (Matt Damon) - najmłodszego z czterech braci, jedynego, który przeżył. Pozostali trzej zginęli w walce. W miarę, jak oddział przedzierał się coraz głębiej na terytorium wroga, ludzie kapitana Millera zaczęli podawać w wątpliwość celowość tej wyprawy. Dlaczego dla jednego człowieka naraża się życie ośmiu... Dlaczego życie tego szeregowca jest więcej warte niż ich wszystkich?', '1997-07-21', 170, 5, 20),
 (29, 'Riddick', 'Riddick', 'Zdradzony przez przyjaciół i pozostawiony na obcej planecie Riddick musi przetrwać w walce ze śmiertelnie groźnymi wrogami. Staje się jeszcze potężniejszy i niebezpieczniejszy niż kiedykolwiek wcześniej. Łowcy nagród ścigający go przez całą galaktykę staną się jedynie pionkami w grze, dzięki której Riddick rozpocznie odsiecz swojej planety, stojącej w obliczu zagłady.', '2013-08-28', 119, 2, 21),
-(30, 'Szybcy i wściekli', 'The Fast and the Furious', 'Opowieść o gangach, które rywalizują o prymat, ścigając się na ulicach miast przerobionymi samochodami, najczęściej produkcji japońskiej. Są to wyścigi o duże pieniądze. Gangi podejrzewane są także o serię porwań ciężarówek. Aby zlikwidować ten proceder, do jednej z grup przenika policjant, Brian (Paul Walker). Po pewnym czasie przekonuje do siebie szefa Dominica Toretto (Vin Diesel). Rywalizacja między gangami przybiera na sile, a dla Briana pojawiają się nowe problemy - zakochuje się w siostrze Dominica (Jordana Brewster).', '2001-06-18', 166, 1, 0),
+(30, 'Szybcy i wściekli', 'The Fast and the Furious', 'Opowieść o gangach, które rywalizują o prymat, ścigając się na ulicach miast przerobionymi samochodami, najczęściej produkcji japońskiej. Są to wyścigi o duże pieniądze. Gangi podejrzewane są także o serię porwań ciężarówek. Aby zlikwidować ten proceder, do jednej z grup przenika policjant, Brian (Paul Walker). Po pewnym czasie przekonuje do siebie szefa Dominica Toretto (Vin Diesel). Rywalizacja między gangami przybiera na sile, a dla Briana pojawiają się nowe problemy - zakochuje się w siostrze Dominica (Jordana Brewster).', '2001-06-18', 166, 1, 34),
 (31, 'Terminator  - Elektroniczny morderca', 'Terminator', 'Rok 2029. Spustoszonym nuklearną wojną światem rządzą roboty, rodzaj ludzki zszedł do podziemia, a Los Angeles to jedno wielkie gruzowisko. Jednak ludzie przygotowują się do buntu przeciw wszechwładnym maszynom-tyranom. Ich wysłannik (Michael Biehn) wraca do Los Angeles roku 1984. Musi za wszelką cenę uniemożliwić niezniszczalnemu cyborgowi z XXI wieku, terminatorowi (Arnold Schwarzenegger), zamordowanie Sary Connor (Linda Hamilton), przyszłej matki lidera rewolucji. Uzbrojony po zęby i pozbawiony jakichkolwiek uczuć terminator urządza krwawe polowanie na dziewczynę.', '1984-10-26', 107, 2, 22),
 (32, 'Człowiek Ringu', 'Cinderella Man', 'Opowieść o losach legendarnego sportowca Jima Braddocka - boksera, który po serii przegranych pojedynków, został zmuszony do porzucenia ringu. Podczas trudnych lat Wielkiego Kryzysu podejmował się wielu zajęć, by utrzymać rodzinę. Właśnie w tym okresie ponownie otrzymał szansę zmierzenia się z jednym z najlepszych bokserów tamtych czasów. Po niespodziewanym dla wszystkich zwycięstwie został wystawiony do walki z mistrzem świata - zawodnikiem znanym z uśmiercenia kilku swoich ringowych przeciwników.', '2005-05-23', 164, 3, 23),
 (33, 'Gladiator', 'Gladiator', 'Generał Maximus (Russell Crowe), jeden z najwybitniejszych dowódców w rzymskiej armii, dowiaduje się, że umierający cesarz Marek Aureliusz (Richard Harris) chce uczynić go swoim następcą na tronie. Nie podoba się to prawowitemu dziedzicowi, Kommodusowi (Joaquin Phoenix), który postanawia pozbyć się rywala i skazuje go na karę śmierci wraz z całą rodziną. Maximusowi cudem udaje się uciec. Trafia do niewoli, gdzie zostaje wyszkolony na gladiatora. Z walki na walkę zyskuje popularność, a na jego występy zaczyna przychodzić coraz więcej ludzi. Maximus jako wojownik wraca do Rzymu, by pomścić swoich bliskich, ale wie, że jedyną potęgą większą od władzy cesarza jest wola ludu i dlatego, by dokonać zemsty, musi stać się największym bohaterem Imperium. ', '2000-05-01', 155, 7, 8),
@@ -150,7 +163,12 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 (38, 'Znaki', 'Signs', 'Mel Gibson wciela się w postać byłego pastora, ojca dwójki dzieci, który po tragicznej śmierci żony zrywa z Kościołem i porzuca stan duchowny. Wspólnie z córką, synem i młodszym bratem (Joaquin Phoenix) mieszka na farmie w Pensylwanii, gdzie pędzi spokojny żywot. Do czasu... Pewnego dnia odkrywa na swoim polu kukurydzy tajemniczy symbol, który nie mógł być pozostawiony przez człowieka. Niebawem informacje o podobnych znakach pojawiają się na całym świecie...', '2002-07-29', 106, 2, 27),
 (39, 'Tłumaczka', 'The Interpreter', 'Silvia Broome pracuje w ONZ jako tłumaczka. Pewnego dnia staje się świadkiem rozmowy dotyczącej zamachu na jednego z afrykańskich przywódców. Całą sprawą zajmują się agenci Tajnych Służb. Wkrótce jednak okazuje się, że nie wszystko jest tak oczywiste, jak było na samym początku, a tłumaczka skrywa pewną tajemnicę.', '2005-04-04', 128, 1, 28),
 (40, 'Wolverine', 'Wolverine', 'Hugh Jackman ponownie w roli tajemniczego, obdarzonego niezwykłą mocą Wolverine’a, który wyrusza do współczesnej Japonii. Stawia tam czoła nie tylko obcej kulturze, lecz także śmiertelnie groźnym wrogom, którzy gotowi są na wszystko, by go zniszczyć.  Wolverine odkryje swoje słabości, zyskując przy tym siłę, o której dotąd mógł tylko marzyć, a jego los zmieni się na zawsze…', '2013-07-16', 126, 1, 29),
-(41, 'Furia', 'Fury', 'Kwiecień 1945 roku. Alianckie wojska rozgromiły niemiecką armię w Ardenach i maszerują wprost na Berlin. Znany z odwagi, zahartowany w boju dowódca czołgu pieszczotliwie nazywanego Furia, sierżant Wardaddy (Brad Pitt) otrzymuje zadanie specjalne. Wraz ze swoją załogą będzie musiał wykonać tajną misję za linią frontu i stawić czoła znacznie potężniejszym siłom wroga.', '2014-10-15', 134, 5, 30);
+(42, 'Mad Max: Na drodze gniewu', 'Mad Max: Fury Road', 'Po nuklearnej katastrofie świat stał się pustynią. Nieliczni, co przetrwali wybuch, walczą o wodę i wolność od niebezpiecznych organizacji rządzących na Ziemi.', '2015-05-07', 120, 2, 16),
+(43, 'Pearl Harbor', 'Pearl Harbor', 'Stany Zjednoczone, rok 1941. Dwaj przyjaciele i zapaleni piloci - Rafe (Ben Affleck) i Danny (Josh Hartnett) służą w lotnictwie. Rafe zakochuje się z wzajemnością w pięknej pielęgniarce Evelyn (Kate Beckinsale). Sielanka kończy się, gdy młody lotnik opuszcza Amerykę, by wziąć udział w bitwie o Anglię. Wkrótce przychodzi wiadomość o jego śmierci. Kilka miesięcy później Evelyn i Danny, którzy w międzyczasie zostali przeniesieni do Pear Harbor na Hawajach, nawiązują romans. Tymczasem z wojny wraca cały i zdrowy Rafe. Od tego momentu w splątane losy bohaterów ingeruje historia - japońskie bomby spadają na Pearl Harbor...', '2001-05-21', 183, 5, 9),
+(44, 'Van Helsing', 'Van Helsing', 'Van Helsing zostaje wysłany przez Watykan do zabicia Drakuli i jego wampirzyc, siejących spustoszenie w Transylwanii.', '2004-05-03', 132, 13, 30),
+(45, 'Władza absolutna', 'Absolute Power', 'Waszyngton, czasy współczesne. Włamywacz-weteran Luther Whitney (Clint Eastwood) ma zamiar godnie zakończyć złodziejską karierę. Decyduje się na jeszcze jeden - już ostatni - wielki skok, który swoim zwyczajem przygotowuje w najdrobniejszych szczegółach. Zakrada się do posiadłości Waltera Sullivana (E.G. Marshall), polityka i jednego z najbogatszych mieszkańców Waszyngtonu. W weneckim lustrze widzi sypialnię Sullivanów, w której żonę gospodarza Christy (Melora Hardin) uwodzi jego protegowany Alan Richmond (Gene Hackman), aktualnie piastujący urząd prezydenta Stanów Zjednoczonych. Pomiędzy nim a Christy wywiązuje się szamotanina, w trakcie której do sypialni wpadają dwaj agenci tajnych służb... Małżonka Sullivana ginie z ich rąk. Agenci oraz szefowa służb Białego Domu, Gloria Russell (Judy Davis), preparują na użytek prasy wersję - z włamywaczem jako zabójcą. Tymczasem Luther kradnie narzędzie zbrodni. Prowadzący śledztwo detektyw Seth Frank (Ed Harris) domyśla się, że włamania mógł dokonać tylko wykwalifikowany złodziej. Układa listę podejrzanych, a Luther zajmuje na niej czołowe miejsce. Agenci Białego Domu obawiają się, że włamywacz widział popełniony przez nich mord i chcą go zabić. Złodziej stawia im czoła, podejmuje dramatyczną walkę o życie własne, córki Kate (Laura Linney) oraz prawdę.', '1997-02-04', 121, 14, 31),
+(46, 'Karmazynowy przypływ', 'Crimson Tide', 'W Rosji grupa żołnierzy pod dowództwem nacjonalisty Radczenki przejmuje kontrolę nad wyrzutniami rakiet nuklearnych. Amerykański okręt podwodny \"Alabama\" zostaje wysłany, by patrolować wody terytorialne Rosji. \"Alabama\" to okręt klasy Ohio (jest tylko siedem takich na świecie) przenoszący pociski Tridant IC-4. Dowództwo \"Alabamy\" dostaje rozkaz odpalenia rakiet. Dochodzi do konfliktu między komandorem Frankiem Ramseyem (Gene Hackman) i jego pierwszym oficerem Ronem Hunterem (Denzel Washington), który zastanawia się nad słusznością wydanego rozkazu, ponieważ podczas potwierdzenia rozkazu okręt traci łączność z dowództwem. Nie wiadomo, czy rozkaz został potwierdzony, czy zarządzono odwołanie odpalenia rakiet. Konflikt oficerów dzieli załogę. Część uważa, że lojalność wobec groźby odpalenia pocisków nie jest najistotniejszą sprawą.', '1995-05-12', 116, 6, 32),
+(47, 'Air Force One', 'Air Force One', 'Na pokład startującego z moskiewskiego lotniska prezydenckiego samolotu Air Force One dostaje się grupa terrorystów podających się za rosyjskich dziennikarzy, Ich przywódcą jest fanatycznie oddany sprawie Rosji Ivan Korshunov (Gary Oldman), który z pomocą sympatyzującego z nim agenta amerykańskich służb specjalnych przejmuje kontrolę nad samolotem. Pilotom Air Force One udaje się podejść do lądowania na jednym z lotnisk wojskowych w Niemczech, zostają jednak zabici przez terrorystów, którzy podrywają samolot do dalszego lotu. Prezydent Marshall (Harrison Ford) ukrywa się, wszyscy są przekonani, że udało mu się uciec w kapsule ratunkowej...', '1997-07-21', 124, 14, 33);
 
 -- --------------------------------------------------------
 
@@ -160,7 +178,7 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 
 CREATE TABLE `gatunki` (
   `id_gatunku` int(11) NOT NULL,
-  `gatunek` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL
+  `gatunek` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -169,17 +187,19 @@ CREATE TABLE `gatunki` (
 
 INSERT INTO `gatunki` (`id_gatunku`, `gatunek`) VALUES
 (1, 'Akcja'),
-(2, 'Sci-Fi'),
+(10, 'Animacja'),
 (3, 'Biograficzny'),
-(4, 'Obyczajowy'),
-(5, 'Wojenny'),
-(6, 'Thriller'),
+(9, 'Dramat'),
+(12, 'Fantasy'),
 (7, 'Historyczny'),
 (8, 'Komedia'),
-(9, 'Dramat'),
-(10, 'Animacja'),
+(4, 'Obyczajowy'),
+(13, 'Przygodowy'),
 (11, 'Romantyczny'),
-(12, 'Fantasy');
+(2, 'Sci-Fi'),
+(14, 'Sensacyjny'),
+(6, 'Thriller'),
+(5, 'Wojenny');
 
 -- --------------------------------------------------------
 
@@ -273,9 +293,24 @@ INSERT INTO `obsada` (`id_obsady`, `id_filmu`, `id_aktora`) VALUES
 (73, 39, 36),
 (74, 40, 37),
 (75, 13, 21),
-(76, 41, 21),
-(77, 41, 43),
-(78, 41, 44);
+(76, 43, 17),
+(77, 43, 43),
+(78, 43, 44),
+(79, 43, 45),
+(80, 43, 46),
+(81, 43, 47),
+(82, 43, 48),
+(83, 43, 49),
+(84, 44, 43),
+(85, 44, 37),
+(86, 46, 50),
+(87, 46, 51),
+(88, 46, 50),
+(89, 46, 29),
+(90, 46, 52),
+(91, 47, 53),
+(92, 47, 54),
+(93, 47, 55);
 
 -- --------------------------------------------------------
 
@@ -285,7 +320,7 @@ INSERT INTO `obsada` (`id_obsady`, `id_filmu`, `id_aktora`) VALUES
 
 CREATE TABLE `rezyserzy` (
   `id_rezysera` int(11) NOT NULL,
-  `rezyser` varchar(50) COLLATE utf8mb4_polish_ci NOT NULL
+  `rezyser` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
@@ -293,36 +328,40 @@ CREATE TABLE `rezyserzy` (
 --
 
 INSERT INTO `rezyserzy` (`id_rezysera`, `rezyser`) VALUES
-(11, 'Barry Levinson'),
+(1, ' David Leitch'),
 (2, 'Chad Stahelski'),
+(3, 'Mathieu Kassovitz'),
+(4, 'Jon Favreau'),
+(5, 'Hawk Ostby'),
+(6, 'Martin Scorsese'),
 (7, 'Christopher Nolan'),
-(30, 'David Ayer'),
+(8, 'Ridley Scott'),
+(9, 'Michael Bay'),
+(10, 'Gus Van Sant'),
+(11, 'Barry Levinson'),
 (12, 'David Fincher'),
-(1, 'David Leitch'),
-(21, 'David Twohy'),
-(19, 'Frank Darabont'),
+(13, 'Wolfgang Petersen'),
+(14, 'James L. Brooks'),
+(15, 'Robert Zemeckis'),
 (16, 'George Miller'),
 (17, 'Gina Prince-Bythewood'),
-(10, 'Gus Van Sant'),
-(5, 'Hawk Ostby'),
-(22, 'James Cameron'),
-(14, 'James L. Brooks'),
-(29, 'James Mangold'),
-(4, 'Jon Favreau'),
-(27, 'M. Night Shyamalan'),
-(6, 'Martin Scorsese'),
-(3, 'Mathieu Kassovitz'),
-(26, 'Mel Gibson'),
-(9, 'Michael Bay'),
-(25, 'Nancy Meyers'),
-(8, 'Ridley Scott'),
-(15, 'Robert Zemeckis'),
-(23, 'Ron Howard'),
-(20, 'Steven Spielberg'),
-(28, 'Sydney Pollack'),
-(24, 'Todd Phillips'),
 (18, 'William Steig'),
-(13, 'Wolfgang Petersen');
+(19, 'Frank Darabont'),
+(20, 'Steven Spielberg'),
+(21, 'David Twohy'),
+(22, 'James Cameron'),
+(23, 'Ron Howard'),
+(24, 'Todd Phillips'),
+(25, 'Nancy Meyers'),
+(26, 'Mel Gibson'),
+(27, 'M. Night Shyamalan'),
+(28, 'Sydney Pollack'),
+(29, 'James Mangold'),
+(30, 'Stephen Sommers'),
+(31, 'Clint Eastwood'),
+(32, 'Tony Scott'),
+(33, 'Wolfgang Petersen'),
+(34, 'Rob Cohen');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -340,30 +379,31 @@ ALTER TABLE `aktorzy`
 --
 ALTER TABLE `filmy`
   ADD PRIMARY KEY (`id_filmu`),
-  ADD KEY `id_gatunku` (`id_gatunku`),
-  ADD KEY `id_rezysera_idx` (`id_rezysera`) USING BTREE;
+  ADD KEY `rezyser_pol` (`id_rezysera`) USING BTREE,
+  ADD KEY `gatunek_pol` (`id_gatunku`) USING BTREE;
 
 --
 -- Indeksy dla tabeli `gatunki`
 --
 ALTER TABLE `gatunki`
-  ADD PRIMARY KEY (`id_gatunku`);
+  ADD PRIMARY KEY (`id_gatunku`),
+  ADD UNIQUE KEY `gatunek_idx` (`gatunek`);
 
 --
 -- Indeksy dla tabeli `obsada`
 --
 ALTER TABLE `obsada`
   ADD PRIMARY KEY (`id_obsady`),
-  ADD KEY `aktor_obsada` (`id_obsady`),
-  ADD KEY `id_aktora` (`id_aktora`),
-  ADD KEY `id_filmu` (`id_filmu`);
+  ADD KEY `id_aktora_ob` (`id_obsady`),
+  ADD KEY `id_filmu_obs` (`id_obsady`),
+  ADD KEY `aktorzy_rel` (`id_aktora`),
+  ADD KEY `film_rel` (`id_filmu`);
 
 --
 -- Indeksy dla tabeli `rezyserzy`
 --
 ALTER TABLE `rezyserzy`
-  ADD PRIMARY KEY (`id_rezysera`),
-  ADD UNIQUE KEY `rezyser` (`rezyser`);
+  ADD PRIMARY KEY (`id_rezysera`);
 
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
@@ -373,31 +413,31 @@ ALTER TABLE `rezyserzy`
 -- AUTO_INCREMENT dla tabeli `aktorzy`
 --
 ALTER TABLE `aktorzy`
-  MODIFY `id_aktora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_aktora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT dla tabeli `filmy`
 --
 ALTER TABLE `filmy`
-  MODIFY `id_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT dla tabeli `gatunki`
 --
 ALTER TABLE `gatunki`
-  MODIFY `id_gatunku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_gatunku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT dla tabeli `obsada`
 --
 ALTER TABLE `obsada`
-  MODIFY `id_obsady` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_obsady` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT dla tabeli `rezyserzy`
 --
 ALTER TABLE `rezyserzy`
-  MODIFY `id_rezysera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_rezysera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -407,14 +447,15 @@ ALTER TABLE `rezyserzy`
 -- Ograniczenia dla tabeli `filmy`
 --
 ALTER TABLE `filmy`
-  ADD CONSTRAINT `filmy_ibfk_1` FOREIGN KEY (`id_gatunku`) REFERENCES `gatunki` (`id_gatunku`);
+  ADD CONSTRAINT `filmy_ibfk_1` FOREIGN KEY (`id_gatunku`) REFERENCES `gatunki` (`id_gatunku`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `filmy_ibfk_2` FOREIGN KEY (`id_rezysera`) REFERENCES `rezyserzy` (`id_rezysera`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ograniczenia dla tabeli `obsada`
 --
 ALTER TABLE `obsada`
-  ADD CONSTRAINT `obsada_ibfk_1` FOREIGN KEY (`id_aktora`) REFERENCES `aktorzy` (`id_aktora`),
-  ADD CONSTRAINT `obsada_ibfk_2` FOREIGN KEY (`id_filmu`) REFERENCES `filmy` (`id_filmu`);
+  ADD CONSTRAINT `aktor_rel` FOREIGN KEY (`id_aktora`) REFERENCES `aktorzy` (`id_aktora`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `film_rel` FOREIGN KEY (`id_filmu`) REFERENCES `filmy` (`id_filmu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
