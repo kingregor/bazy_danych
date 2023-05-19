@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 03 Maj 2023, 18:04
+-- Czas generowania: 19 Maj 2023, 22:23
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -20,9 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `kino`
 --
-
-DROP DATABASE IF  EXISTS `kino`;
-CREATE DATABASE `kino` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `kino` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `kino`;
 
 -- --------------------------------------------------------
@@ -31,14 +29,15 @@ USE `kino`;
 -- Struktura tabeli dla tabeli `aktorzy`
 --
 
+DROP TABLE IF EXISTS `aktorzy`;
 CREATE TABLE `aktorzy` (
   `id_aktora` int(11) NOT NULL,
   `aktor` varchar(50) NOT NULL,
   `kobieta` tinyint(1) NOT NULL DEFAULT 0,
   `data_urodzenia` date NOT NULL,
   `wzrost` int(11) NOT NULL,
-  `kraj` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+  `kraj` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Zrzut danych tabeli `aktorzy`
@@ -99,7 +98,12 @@ INSERT INTO `aktorzy` (`id_aktora`, `aktor`, `kobieta`, `data_urodzenia`, `wzros
 (52, 'Viggo Mortensen', 0, '1958-10-20', 180, 'USA'),
 (53, 'Gary Oldman', 0, '1958-03-21', 174, 'Wielka Brytania'),
 (54, 'Harrison Ford', 0, '1942-07-13', 185, 'USA'),
-(55, 'Gleen Close', 1, '1947-03-19', 165, 'USA');
+(55, 'Gleen Close', 1, '1947-03-19', 165, 'USA'),
+(56, 'Tommy Lee Jones', 0, '1946-09-15', 183, 'USA'),
+(57, 'Milla Jovovich', 1, '1975-12-17', 173, 'Ukraina'),
+(58, 'Chris Tucker', 0, '1972-08-31', 185, 'USA'),
+(59, 'Jean Reno', 0, '1948-07-30', 188, 'Maroko'),
+(60, 'Natalie Portman', 1, '1981-06-09', 160, 'Izrael');
 
 -- --------------------------------------------------------
 
@@ -107,6 +111,7 @@ INSERT INTO `aktorzy` (`id_aktora`, `aktor`, `kobieta`, `data_urodzenia`, `wzros
 -- Struktura tabeli dla tabeli `filmy`
 --
 
+DROP TABLE IF EXISTS `filmy`;
 CREATE TABLE `filmy` (
   `id_filmu` int(11) NOT NULL,
   `tytul` varchar(50) NOT NULL,
@@ -168,7 +173,11 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 (44, 'Van Helsing', 'Van Helsing', 'Van Helsing zostaje wysłany przez Watykan do zabicia Drakuli i jego wampirzyc, siejących spustoszenie w Transylwanii.', '2004-05-03', 132, 13, 30),
 (45, 'Władza absolutna', 'Absolute Power', 'Waszyngton, czasy współczesne. Włamywacz-weteran Luther Whitney (Clint Eastwood) ma zamiar godnie zakończyć złodziejską karierę. Decyduje się na jeszcze jeden - już ostatni - wielki skok, który swoim zwyczajem przygotowuje w najdrobniejszych szczegółach. Zakrada się do posiadłości Waltera Sullivana (E.G. Marshall), polityka i jednego z najbogatszych mieszkańców Waszyngtonu. W weneckim lustrze widzi sypialnię Sullivanów, w której żonę gospodarza Christy (Melora Hardin) uwodzi jego protegowany Alan Richmond (Gene Hackman), aktualnie piastujący urząd prezydenta Stanów Zjednoczonych. Pomiędzy nim a Christy wywiązuje się szamotanina, w trakcie której do sypialni wpadają dwaj agenci tajnych służb... Małżonka Sullivana ginie z ich rąk. Agenci oraz szefowa służb Białego Domu, Gloria Russell (Judy Davis), preparują na użytek prasy wersję - z włamywaczem jako zabójcą. Tymczasem Luther kradnie narzędzie zbrodni. Prowadzący śledztwo detektyw Seth Frank (Ed Harris) domyśla się, że włamania mógł dokonać tylko wykwalifikowany złodziej. Układa listę podejrzanych, a Luther zajmuje na niej czołowe miejsce. Agenci Białego Domu obawiają się, że włamywacz widział popełniony przez nich mord i chcą go zabić. Złodziej stawia im czoła, podejmuje dramatyczną walkę o życie własne, córki Kate (Laura Linney) oraz prawdę.', '1997-02-04', 121, 14, 31),
 (46, 'Karmazynowy przypływ', 'Crimson Tide', 'W Rosji grupa żołnierzy pod dowództwem nacjonalisty Radczenki przejmuje kontrolę nad wyrzutniami rakiet nuklearnych. Amerykański okręt podwodny \"Alabama\" zostaje wysłany, by patrolować wody terytorialne Rosji. \"Alabama\" to okręt klasy Ohio (jest tylko siedem takich na świecie) przenoszący pociski Tridant IC-4. Dowództwo \"Alabamy\" dostaje rozkaz odpalenia rakiet. Dochodzi do konfliktu między komandorem Frankiem Ramseyem (Gene Hackman) i jego pierwszym oficerem Ronem Hunterem (Denzel Washington), który zastanawia się nad słusznością wydanego rozkazu, ponieważ podczas potwierdzenia rozkazu okręt traci łączność z dowództwem. Nie wiadomo, czy rozkaz został potwierdzony, czy zarządzono odwołanie odpalenia rakiet. Konflikt oficerów dzieli załogę. Część uważa, że lojalność wobec groźby odpalenia pocisków nie jest najistotniejszą sprawą.', '1995-05-12', 116, 6, 32),
-(47, 'Air Force One', 'Air Force One', 'Na pokład startującego z moskiewskiego lotniska prezydenckiego samolotu Air Force One dostaje się grupa terrorystów podających się za rosyjskich dziennikarzy, Ich przywódcą jest fanatycznie oddany sprawie Rosji Ivan Korshunov (Gary Oldman), który z pomocą sympatyzującego z nim agenta amerykańskich służb specjalnych przejmuje kontrolę nad samolotem. Pilotom Air Force One udaje się podejść do lądowania na jednym z lotnisk wojskowych w Niemczech, zostają jednak zabici przez terrorystów, którzy podrywają samolot do dalszego lotu. Prezydent Marshall (Harrison Ford) ukrywa się, wszyscy są przekonani, że udało mu się uciec w kapsule ratunkowej...', '1997-07-21', 124, 14, 33);
+(47, 'Air Force One', 'Air Force One', 'Na pokład startującego z moskiewskiego lotniska prezydenckiego samolotu Air Force One dostaje się grupa terrorystów podających się za rosyjskich dziennikarzy, Ich przywódcą jest fanatycznie oddany sprawie Rosji Ivan Korshunov (Gary Oldman), który z pomocą sympatyzującego z nim agenta amerykańskich służb specjalnych przejmuje kontrolę nad samolotem. Pilotom Air Force One udaje się podejść do lądowania na jednym z lotnisk wojskowych w Niemczech, zostają jednak zabici przez terrorystów, którzy podrywają samolot do dalszego lotu. Prezydent Marshall (Harrison Ford) ukrywa się, wszyscy są przekonani, że udało mu się uciec w kapsule ratunkowej...', '1997-07-21', 124, 14, 33),
+(48, 'Ścigany', 'The Fugitive', 'Szanowany chirurg Richard Kimble zostaje oskarżony o morderstwo żony i skazany na śmierć. Gdy w drodze do więzienia ucieka, jego śladem rusza szeryf Samuel Gerard.', '1993-07-29', 127, 14, 35),
+(49, 'Piąty Element', 'The Fifth Element', 'Korben Dallas to były komandos, a obecnie taksówkarz w NY w XXIII wieku. Wplątany zostaje w misję ratowania świata przed siłami zła pojawiającymi się raz na pięć tysięcy lat, a reprezentowanymi tym razem przez multimiliardera Zorga. Do jej zrealizowania potrzebuje mitycznych pięciu elementów. Wskutek zbiegu przypadków pomaga mu w tym ojciec Cornelius oraz piękna i tajemnicza Leeloo. Wyruszają w niebezpieczną misję do pozaziemskiego kurortu. Niestety nie wiadomo, czym jest i gdzie jest Piąty Element potrzebny do złączenia wszystkich w jedno i pokonania pędzącego w kierunku Ziemi Zła.', '1997-05-07', 126, 2, 36),
+(50, 'Leon Zawodowiec', 'Léon', 'Leon jest płatnym zabójcą. W niczym nie przypomina męskiego, twardego i nieposkromionego złoczyńcy. Wręcz przeciwnie: jest cichy, spokojny, na co dzień pije mleko. Pewnego dnia skorumpowana policja zabija swojego dostawcę narkotyków i jego rodzinę. Przeżyła tylko córka, która postanawia zemścić się na zabójcach. To niezwykle trudne zlecenie otrzymuje Leon, u którego młoda dziewczyna znajduje schronienie.', '1994-09-14', 110, 1, 36),
+(51, 'Forest Gump', 'Forest Gump', '\"Forrest Gump\" to romantyczna historia nierozgarniętego młodego człowieka o wielkim sercu i zdolności do odnajdywania się w największych wydarzeniach w historii USA, począwszy od swego dzieciństwa w latach 50-tych. Po tym, jak staje się gwiazdą footballu, odznaczonym bohaterem wojennym i odnoszącym sukcesy biznesmenem, główny bohater zyskuje status osobistości, lecz nigdy nie rezygnuje z poszukiwania tego, co dla niego najważniejsze - miłości swej przyjaciółki, Jenny Curran.\r\nForrest jest małym chłopcem, kiedy jego ojciec porzuca rodzinę, a matka utrzymuje siebie i syna biorąc pod swój dach lokatorów. Kiedy okazuje się, że jej chłopiec ma bardzo niski iloraz inteligencji, pozostaje nieustraszona w swoim przekonaniu, że ma on takie same możliwości, jak każdy inny. To prawda - takie same, a nawet dużo większe. W całym swym życiu Forrest niezamierzenie znajduje się twarzą w twarz z wieloma legendarnymi postaciami lat 50-tych, 60-tych i 70-tych. Wiedzie go to na boisko piłki nożnej, poprzez dżungle Wietnamu, Waszyngton, Chiny, Nowy Jork, do Luizjany i w wiele innych miejsc, a wszystko to relacjonuje on w swych poruszających i wstrząsających opowieściach przypadkowo spotkanym osobom.', '1994-06-23', 142, 9, 37);
 
 -- --------------------------------------------------------
 
@@ -176,6 +185,7 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 -- Struktura tabeli dla tabeli `gatunki`
 --
 
+DROP TABLE IF EXISTS `gatunki`;
 CREATE TABLE `gatunki` (
   `id_gatunku` int(11) NOT NULL,
   `gatunek` varchar(50) NOT NULL
@@ -207,6 +217,7 @@ INSERT INTO `gatunki` (`id_gatunku`, `gatunek`) VALUES
 -- Struktura tabeli dla tabeli `obsada`
 --
 
+DROP TABLE IF EXISTS `obsada`;
 CREATE TABLE `obsada` (
   `id_obsady` int(11) NOT NULL,
   `id_filmu` int(11) NOT NULL,
@@ -310,7 +321,18 @@ INSERT INTO `obsada` (`id_obsady`, `id_filmu`, `id_aktora`) VALUES
 (90, 46, 52),
 (91, 47, 53),
 (92, 47, 54),
-(93, 47, 55);
+(93, 47, 55),
+(98, 48, 54),
+(99, 48, 56),
+(104, 49, 57),
+(105, 49, 16),
+(106, 49, 53),
+(107, 49, 58),
+(108, 50, 59),
+(109, 50, 60),
+(110, 50, 53),
+(111, 51, 26),
+(112, 51, 27);
 
 -- --------------------------------------------------------
 
@@ -318,6 +340,7 @@ INSERT INTO `obsada` (`id_obsady`, `id_filmu`, `id_aktora`) VALUES
 -- Struktura tabeli dla tabeli `rezyserzy`
 --
 
+DROP TABLE IF EXISTS `rezyserzy`;
 CREATE TABLE `rezyserzy` (
   `id_rezysera` int(11) NOT NULL,
   `rezyser` varchar(50) NOT NULL
@@ -328,7 +351,7 @@ CREATE TABLE `rezyserzy` (
 --
 
 INSERT INTO `rezyserzy` (`id_rezysera`, `rezyser`) VALUES
-(1, ' David Leitch'),
+(1, 'David Leitch'),
 (2, 'Chad Stahelski'),
 (3, 'Mathieu Kassovitz'),
 (4, 'Jon Favreau'),
@@ -361,7 +384,10 @@ INSERT INTO `rezyserzy` (`id_rezysera`, `rezyser`) VALUES
 (31, 'Clint Eastwood'),
 (32, 'Tony Scott'),
 (33, 'Wolfgang Petersen'),
-(34, 'Rob Cohen');
+(34, 'Rob Cohen'),
+(35, 'Andrew Davis'),
+(36, 'Luc Besson'),
+(37, 'Robert Zemeckis');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -413,13 +439,13 @@ ALTER TABLE `rezyserzy`
 -- AUTO_INCREMENT dla tabeli `aktorzy`
 --
 ALTER TABLE `aktorzy`
-  MODIFY `id_aktora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_aktora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT dla tabeli `filmy`
 --
 ALTER TABLE `filmy`
-  MODIFY `id_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT dla tabeli `gatunki`
@@ -431,13 +457,13 @@ ALTER TABLE `gatunki`
 -- AUTO_INCREMENT dla tabeli `obsada`
 --
 ALTER TABLE `obsada`
-  MODIFY `id_obsady` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id_obsady` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT dla tabeli `rezyserzy`
 --
 ALTER TABLE `rezyserzy`
-  MODIFY `id_rezysera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_rezysera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Ograniczenia dla zrzutów tabel
