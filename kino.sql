@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 03 Cze 2023, 20:28
+-- Czas generowania: 05 Cze 2023, 00:03
 -- Wersja serwera: 10.4.27-MariaDB
 -- Wersja PHP: 8.2.0
 
@@ -20,14 +20,14 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `kino`
 --
-CREATE DATABASE IF NOT EXISTS `kino` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+DROP DATABASE IF EXISTS `kino`;
+CREATE DATABASE `kino` DEFAULT CHARACTER SET utf8mb4;
 USE `kino`;
 
 DELIMITER $$
 --
 -- Procedury
 --
-DROP PROCEDURE IF EXISTS `filmy_aktora`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `filmy_aktora` (IN `ak` VARCHAR(50) CHARSET utf8mb4)  DETERMINISTIC SELECT * FROM filmy
 JOIN obsada ON filmy.id_filmu=obsada.id_filmu
 JOIN aktorzy ON obsada.id_aktora=aktorzy.id_aktora
@@ -41,7 +41,6 @@ DELIMITER ;
 -- Struktura tabeli dla tabeli `aktorzy`
 --
 
-DROP TABLE IF EXISTS `aktorzy`;
 CREATE TABLE `aktorzy` (
   `id_aktora` int(11) NOT NULL,
   `aktor` varchar(50) NOT NULL,
@@ -49,7 +48,7 @@ CREATE TABLE `aktorzy` (
   `data_urodzenia` date NOT NULL,
   `wzrost` int(11) NOT NULL,
   `id_kraju` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `aktorzy`
@@ -139,7 +138,6 @@ INSERT INTO `aktorzy` (`id_aktora`, `aktor`, `kobieta`, `data_urodzenia`, `wzros
 -- Zastąpiona struktura widoku `duplikaty`
 -- (Zobacz poniżej rzeczywisty widok)
 --
-DROP VIEW IF EXISTS `duplikaty`;
 CREATE TABLE `duplikaty` (
 `tytul` varchar(50)
 ,`ile` bigint(21)
@@ -151,7 +149,6 @@ CREATE TABLE `duplikaty` (
 -- Struktura tabeli dla tabeli `filmy`
 --
 
-DROP TABLE IF EXISTS `filmy`;
 CREATE TABLE `filmy` (
   `id_filmu` int(11) NOT NULL,
   `tytul` varchar(50) NOT NULL,
@@ -162,7 +159,7 @@ CREATE TABLE `filmy` (
   `zysk` decimal(5,1) DEFAULT NULL COMMENT 'w mln $',
   `id_gatunku` int(11) DEFAULT NULL,
   `id_rezysera` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `filmy`
@@ -233,11 +230,10 @@ INSERT INTO `filmy` (`id_filmu`, `tytul`, `oryginalny_tytul`, `opis`, `data_prem
 -- Struktura tabeli dla tabeli `foto_aktorzy`
 --
 
-DROP TABLE IF EXISTS `foto_aktorzy`;
 CREATE TABLE `foto_aktorzy` (
   `id_aktora` int(11) NOT NULL,
   `link` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `foto_aktorzy`
@@ -327,11 +323,10 @@ INSERT INTO `foto_aktorzy` (`id_aktora`, `link`) VALUES
 -- Struktura tabeli dla tabeli `gatunki`
 --
 
-DROP TABLE IF EXISTS `gatunki`;
 CREATE TABLE `gatunki` (
   `id_gatunku` int(11) NOT NULL,
   `gatunek` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `gatunki`
@@ -360,12 +355,11 @@ INSERT INTO `gatunki` (`id_gatunku`, `gatunek`) VALUES
 -- Struktura tabeli dla tabeli `kraje`
 --
 
-DROP TABLE IF EXISTS `kraje`;
 CREATE TABLE `kraje` (
   `id_kraju` int(11) NOT NULL,
   `kraj` varchar(30) NOT NULL,
   `kontynent` enum('Europa','Azja','Afryka','Australia i Oceania','Ameryka Północna','Ameryka Południowa') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `kraje`
@@ -396,12 +390,11 @@ INSERT INTO `kraje` (`id_kraju`, `kraj`, `kontynent`) VALUES
 -- Struktura tabeli dla tabeli `obsada`
 --
 
-DROP TABLE IF EXISTS `obsada`;
 CREATE TABLE `obsada` (
   `id_obsady` int(11) NOT NULL,
   `id_filmu` int(11) NOT NULL,
   `id_aktora` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `obsada`
@@ -543,11 +536,10 @@ INSERT INTO `obsada` (`id_obsady`, `id_filmu`, `id_aktora`) VALUES
 -- Struktura tabeli dla tabeli `rezyserzy`
 --
 
-DROP TABLE IF EXISTS `rezyserzy`;
 CREATE TABLE `rezyserzy` (
   `id_rezysera` int(11) NOT NULL,
-  `rezyser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+  `rezyser` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `rezyserzy`
@@ -607,8 +599,7 @@ INSERT INTO `rezyserzy` (`id_rezysera`, `rezyser`) VALUES
 --
 DROP TABLE IF EXISTS `duplikaty`;
 
-DROP VIEW IF EXISTS `duplikaty`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `duplikaty`  AS SELECT `filmy`.`tytul` AS `tytul`, count(0) AS `ile` FROM `filmy` GROUP BY `filmy`.`tytul` HAVING `ile` > 11  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `duplikaty`  AS SELECT `filmy`.`tytul` AS `tytul`, count(0) AS `ile` FROM `filmy` GROUP BY `filmy`.`tytul` HAVING `ile` > 1111  ;
 
 --
 -- Indeksy dla zrzutów tabel
